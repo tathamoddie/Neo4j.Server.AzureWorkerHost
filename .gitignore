@@ -1,0 +1,8 @@
+obj
+bin
+*.suo
+*.user
+TestResults/
+*.zip
+_ReSharper*
+*.ncrunchsolution
