@@ -50,8 +50,8 @@
   <Target Name="BeforeBuild">
   </Target>
   -->
-  <Target Name="AfterBuild">
-    <Exec Condition="$(Configuration)=='Release'" WorkingDirectory="$(MSBuildProjectDirectory)" Command="..\tools\nuget.exe pack -Symbols" />
+  <Target Name="AfterBuild" Condition="$(Configuration)=='Release'">
+    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="..\tools\nuget.exe pack -Symbols -Properties Configuration=$(Configuration)" />
     <CreateItem Include="$(MSBuildProjectDirectory)\*.nupkg">
       <Output TaskParameter="Include" ItemName="PackagesProduced" />
     </CreateItem>
