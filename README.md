@@ -11,6 +11,8 @@ Progress can be tracked on [our public Trello board](https://trello.com/b/b27rGY
 
 Builds can be tracked on [our public build server](https://tc.readifycloud.com/viewType.html?buildTypeId=bt11&guest=1).
 
+Up-to-the-minute packages can be installed from [NuGet](https://nuget.org/packages/Neo4j.Server.AzureWorkerHost). (Every CI build automatically pushes straight to NuGet.)
+
 In the mean time, check out our other Neo4j related work here:
 
 * http://hg.readify.net/neo4jclient
