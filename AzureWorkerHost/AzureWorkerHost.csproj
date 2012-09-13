@@ -41,12 +41,20 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Neo4j.Server.AzureWorkerHost.nuspec" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
   -->
+  <Target Name="AfterBuild">
+    <Exec Condition="$(Configuration)=='Release'" WorkingDirectory="$(MSBuildProjectDirectory)" Command="..\tools\nuget.exe pack -Symbols" />
+    <CreateItem Include="$(MSBuildProjectDirectory)\*.nupkg">
+      <Output TaskParameter="Include" ItemName="PackagesProduced" />
+    </CreateItem>
+    <Move SourceFiles="@(PackagesProduced)" DestinationFiles="@(PackagesProduced->'$(MSBuildProjectDirectory)\$(OutputPath)%(Filename)%(Extension)')" OverwriteReadOnlyFiles="true" />
+  </Target>
 </Project>

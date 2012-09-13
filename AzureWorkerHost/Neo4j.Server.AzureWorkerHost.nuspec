@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Neo4j.Server.AzureWorkerHost</id>
+    <version>$version$</version>
+    <title>Neo4j.Server.AzureWorkerHost</title>
+    <authors>Tatham Oddie, Readify</authors>
+    <owners>Readify</owners>
+    <projectUrl>http://github.com/Readify/Neo4j.Server.AzureWorkerHost</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Makes it super easy to host Neo4j in an Azure worker role</description>
+    <copyright>Copyright 2012</copyright>
+    <tags>Neo4j Azure GraphDB</tags>
+  </metadata>
+</package>
