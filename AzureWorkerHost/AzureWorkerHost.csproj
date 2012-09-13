@@ -51,6 +51,7 @@
   </Target>
   -->
   <Target Name="AfterBuild" Condition="$(Configuration)=='Release'">
+    <Delete Files="$(MSBuildProjectDirectory)\$(OutputPath)*.nupkg" />
     <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="..\tools\nuget.exe pack -Symbols -Properties Configuration=$(Configuration)" />
     <CreateItem Include="$(MSBuildProjectDirectory)\*.nupkg">
       <Output TaskParameter="Include" ItemName="PackagesProduced" />
