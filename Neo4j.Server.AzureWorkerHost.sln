@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureWorkerHost", "AzureWorkerHost\AzureWorkerHost.csproj", "{DE91BC76-F5D2-44B5-B907-E50C1F767D20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{84640225-F9E3-4FFD-BB21-47D1941A7C5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{DE91BC76-F5D2-44B5-B907-E50C1F767D20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE91BC76-F5D2-44B5-B907-E50C1F767D20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE91BC76-F5D2-44B5-B907-E50C1F767D20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84640225-F9E3-4FFD-BB21-47D1941A7C5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84640225-F9E3-4FFD-BB21-47D1941A7C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84640225-F9E3-4FFD-BB21-47D1941A7C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84640225-F9E3-4FFD-BB21-47D1941A7C5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

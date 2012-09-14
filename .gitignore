@@ -6,3 +6,4 @@ TestResults/
 *.zip
 _ReSharper*
 *.ncrunchsolution
+packages/
