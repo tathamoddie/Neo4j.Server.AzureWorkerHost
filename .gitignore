@@ -7,3 +7,4 @@ TestResults/
 _ReSharper*
 *.ncrunchsolution
 packages/
+_NCrunch*
