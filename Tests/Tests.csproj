@@ -36,6 +36,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Microsoft.WindowsAzure.ServiceRuntime.dll</HintPath>
     </Reference>
+    <Reference Include="NSubstitute">
+      <HintPath>..\packages\NSubstitute.1.4.3.0\lib\NET40\NSubstitute.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NeoServerTests\DownloadNeoTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

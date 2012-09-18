@@ -43,7 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExceptionMessages.cs" />
+    <Compile Include="IRoleEnvironment.cs" />
+    <Compile Include="NeoServer.cs" />
+    <Compile Include="NeoServerConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoleEnvironmentWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Neo4j.Server.AzureWorkerHost.nuspec" />
