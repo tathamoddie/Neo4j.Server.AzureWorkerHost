@@ -55,7 +55,7 @@
       <Output TaskParameter="Include" ItemName="OldPackages" />
     </CreateItem>
     <Delete Files="@(OldPackages)" />
-    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="..\tools\nuget.exe pack -Symbols -Properties Configuration=$(Configuration)" />
+    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="..\.nuget\nuget.exe pack -Symbols -Properties Configuration=$(Configuration)" />
     <CreateItem Include="$(MSBuildProjectDirectory)\*.nupkg">
       <Output TaskParameter="Include" ItemName="PackagesProduced" />
     </CreateItem>
