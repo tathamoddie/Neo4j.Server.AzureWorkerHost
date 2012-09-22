@@ -17,6 +17,7 @@ namespace AzureWorkerHost
         readonly IRoleEnvironment roleEnvironment;
         readonly ICloudBlobClient cloudBlobClient;
         readonly IFileSystem fileSystem;
+        readonly IZipHandler zipHandler;
 
         internal readonly NeoRuntimeContext Context = new NeoRuntimeContext();
 
@@ -26,12 +27,14 @@ namespace AzureWorkerHost
             NeoServerConfiguration configuration,
             IRoleEnvironment roleEnvironment,
             ICloudBlobClient cloudBlobClient,
-            IFileSystem fileSystem)
+            IFileSystem fileSystem,
+            IZipHandler zipHandler)
         {
             this.configuration = configuration;
             this.roleEnvironment = roleEnvironment;
             this.cloudBlobClient = cloudBlobClient;
             this.fileSystem = fileSystem;
+            this.zipHandler = zipHandler;
 
             Loggers = new List<ILogger>(new[] { new TraceLogger() });
         }
@@ -40,7 +43,8 @@ namespace AzureWorkerHost
             : this(configuration,
                 new RoleEnvironmentWrapper(),
                 new CloudBlobClientWrapper(storageAccount.CreateCloudBlobClient()),
-                new FileSystem())
+                new FileSystem(),
+                new ZipHandler())
         {}
 
         public NeoServer(CloudStorageAccount storageAccount)
@@ -81,13 +85,15 @@ namespace AzureWorkerHost
             DownloadArtifact(
                 "Java Runtime Environment",
                 ExceptionMessages.JavaArtifactPreparationHint,
-                configuration.JavaBlobName);
+                configuration.JavaBlobName,
+                configuration.JavaDirectoryName);
         }
 
         internal void DownloadArtifact(
             string friendlyName,
             string artifactPreparationHint,
-            string blobName)
+            string blobName,
+            string targetDirectory)
         {
             Loggers.WriteLine("Downloading {0} from {1}", friendlyName, blobName);
             var blobAddress = cloudBlobClient.BaseUri.Append(blobName).AbsoluteUri;
@@ -101,19 +107,19 @@ namespace AzureWorkerHost
                     ExceptionMessages.PathMissingFileNameComponent,
                     blob.Uri));
 
-            var pathOnDisk = Path.Combine(Context.LocalResourcePath, fileNameComponent);
-            Loggers.WriteLine("Path on disk will be {0}", pathOnDisk);
+            var filePathOnDisk = Path.Combine(Context.LocalResourcePath, fileNameComponent);
+            Loggers.WriteLine("File path on disk will be {0}", filePathOnDisk);
 
-            if (fileSystem.File.Exists(pathOnDisk))
+            if (fileSystem.File.Exists(filePathOnDisk))
             {
-                Loggers.WriteLine("Path on disk exists; deleting");
-                fileSystem.File.Delete(pathOnDisk);
+                Loggers.WriteLine("File exists; deleting");
+                fileSystem.File.Delete(filePathOnDisk);
             }
 
             Loggers.WriteLine("Downloading {0} to disk", friendlyName);
             try
             {
-                blob.DownloadToFile(pathOnDisk);
+                blob.DownloadToFile(filePathOnDisk);
             }
             catch (StorageClientException ex)
             {
@@ -124,6 +130,11 @@ namespace AzureWorkerHost
                 throw exceptionToThrow;
             }
             Loggers.WriteLine("Downloaded {0} to disk", friendlyName);
+
+            var directoryPathOnDisk = Path.Combine(Context.LocalResourcePath, targetDirectory);
+            Loggers.WriteLine("Unzipping artifact to {0}", directoryPathOnDisk);
+            zipHandler.Extract(filePathOnDisk, directoryPathOnDisk);
+            Loggers.WriteLine("Unzipped artifact to {0}", directoryPathOnDisk);
         }
     }
 }

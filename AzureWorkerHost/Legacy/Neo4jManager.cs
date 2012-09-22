@@ -11,7 +11,7 @@ namespace AzureWorkerHost.Legacy
     public class Neo4JManager
     {
         readonly IFileManipulation fileManipulation;
-        readonly IZipping zipping;
+        readonly IZipHandler zipHandler;
         readonly IPaths paths;
         readonly CloudStorageAccount storageAccount;
         readonly ICloudDriveManager cloudDriveManager;
@@ -25,13 +25,13 @@ namespace AzureWorkerHost.Legacy
 
         public Neo4JManager(
             IFileManipulation fileManipulation,
-            IZipping zipping,
+            IZipHandler zipHandler,
             IPaths paths,
             CloudStorageAccount storageAccount,
             ICloudDriveManager cloudDriveManager,
             IConfiguration configuration)
         {
-            this.zipping = zipping;
+            this.zipHandler = zipHandler;
             this.paths = paths;
             this.storageAccount = storageAccount;
             this.cloudDriveManager = cloudDriveManager;
@@ -422,7 +422,7 @@ namespace AzureWorkerHost.Legacy
             Trace.TraceInformation("Unzipping the file <{0}>.", fileInfo.FullName);
             try
             {
-                zipping.Extract(fileInfo.FullName, fileInfo.DirectoryName);
+                zipHandler.Extract(fileInfo.FullName, fileInfo.DirectoryName);
             }
             catch (Exception e)
             {

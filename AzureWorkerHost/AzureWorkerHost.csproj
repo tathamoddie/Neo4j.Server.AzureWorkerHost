@@ -69,7 +69,7 @@
     <Compile Include="Legacy\ICloudDriveManager.cs" />
     <Compile Include="Legacy\INeo4jServerConfigSettings.cs" />
     <Compile Include="AzureMocks\IRoleEnvironment.cs" />
-    <Compile Include="Legacy\IZipping.cs" />
+    <Compile Include="IZipHandler.cs" />
     <Compile Include="Legacy\Neo4jManager.cs" />
     <Compile Include="Legacy\Neo4jServerConfigSettings.cs" />
     <Compile Include="NeoRuntimeContext.cs" />
@@ -91,6 +91,7 @@
     <Compile Include="Legacy\Replacement.cs" />
     <Compile Include="Legacy\ReplaceType.cs" />
     <Compile Include="Diagnostics\TraceLogger.cs" />
+    <Compile Include="ZipHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Neo4j.Server.AzureWorkerHost.nuspec" />
