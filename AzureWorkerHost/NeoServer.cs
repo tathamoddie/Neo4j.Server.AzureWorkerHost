@@ -8,6 +8,8 @@ namespace AzureWorkerHost
         readonly NeoServerConfiguration configuration;
         readonly IRoleEnvironment roleEnvironment;
 
+        internal readonly NeoRuntimeContext Context = new NeoRuntimeContext();
+
         public NeoServer(
             NeoServerConfiguration configuration,
             IRoleEnvironment roleEnvironment)
@@ -21,7 +23,12 @@ namespace AzureWorkerHost
                 new RoleEnvironmentWrapper())
         {}
 
-        public void DownloadNeo()
+        public void DownloadAndInstall()
+        {
+            InitializeLocalResource();
+        }
+
+        internal void InitializeLocalResource()
         {
             LocalResource localResource;
             try
@@ -34,8 +41,7 @@ namespace AzureWorkerHost
                     string.Format(ExceptionMessages.NeoLocalResourceNotFound, configuration.NeoLocalResourceName),
                     ex);
             }
-            var localResourcePath = localResource.RootPath;
-            throw new NotImplementedException();
+            Context.LocalResourcePath = localResource.RootPath;
         }
     }
 }

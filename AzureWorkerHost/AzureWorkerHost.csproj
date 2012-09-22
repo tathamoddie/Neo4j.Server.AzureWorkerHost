@@ -60,6 +60,7 @@
     <Compile Include="Legacy\IZipping.cs" />
     <Compile Include="Legacy\Neo4jManager.cs" />
     <Compile Include="Legacy\Neo4jServerConfigSettings.cs" />
+    <Compile Include="NeoRuntimeContext.cs" />
     <Compile Include="NeoServer.cs" />
     <Compile Include="NeoServerConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

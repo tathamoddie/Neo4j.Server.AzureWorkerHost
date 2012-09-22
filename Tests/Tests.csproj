@@ -51,7 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NeoServerTests\DownloadNeoTests.cs" />
+    <Compile Include="NeoServerTests\InitializeLocalResourceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

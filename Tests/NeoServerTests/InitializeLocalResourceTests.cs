@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Tests.NeoServerTests
 {
-    public class DownloadNeoTests
+    public class InitializeLocalResourceTests
     {
         [Fact]
         public void ShouldProvideCustomExceptionMessageWhenLocalResourceDoesNotExist()
@@ -29,7 +29,7 @@ namespace Tests.NeoServerTests
             // Assert
             var exposedException = Assert.Throws<ApplicationException>(
                 // Act
-                () => server.DownloadNeo());
+                () => server.InitializeLocalResource());
             var expectedMessage = string.Format(ExceptionMessages.NeoLocalResourceNotFound, "foo");
             Assert.Equal(expectedMessage, exposedException.Message);
         }
@@ -53,7 +53,7 @@ namespace Tests.NeoServerTests
             // Assert
             var exposedException = Assert.Throws<ApplicationException>(
                 // Act
-                () => server.DownloadNeo());
+                () => server.InitializeLocalResource());
             Assert.Same(thrownException, exposedException.InnerException);
         }
     }
