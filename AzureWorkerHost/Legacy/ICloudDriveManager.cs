@@ -1,7 +1,7 @@
 using System.IO;
 using Microsoft.WindowsAzure;
 
-namespace AzureWorkerHost
+namespace AzureWorkerHost.Legacy
 {
     public interface ICloudDriveManager
     {

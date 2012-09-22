@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net;
 
-namespace AzureWorkerHost.Utils
+namespace AzureWorkerHost.Legacy
 {
     public interface IPaths
     {

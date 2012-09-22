@@ -1,6 +1,6 @@
 using System;
 
-namespace AzureWorkerHost.Utils
+namespace AzureWorkerHost.Legacy
 {
     internal class AzureHelper
     {

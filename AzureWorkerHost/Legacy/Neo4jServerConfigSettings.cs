@@ -1,6 +1,6 @@
 using System;
 
-namespace AzureWorkerHost
+namespace AzureWorkerHost.Legacy
 {
     internal class Neo4JServerConfigSettings : INeo4JServerConfigSettings
     {

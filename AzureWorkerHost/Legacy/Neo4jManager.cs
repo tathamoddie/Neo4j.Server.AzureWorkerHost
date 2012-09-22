@@ -3,11 +3,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using AzureWorkerHost.Utils;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
 
-namespace AzureWorkerHost
+namespace AzureWorkerHost.Legacy
 {
     public class Neo4JManager
     {

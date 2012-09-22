@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace AzureWorkerHost.Utils
+namespace AzureWorkerHost.Legacy
 {
     public interface IFileManipulation
     {

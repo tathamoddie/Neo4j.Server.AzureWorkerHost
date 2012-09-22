@@ -1,7 +1,7 @@
 using System.IO;
 using System.Linq;
 
-namespace AzureWorkerHost.Utils
+namespace AzureWorkerHost.Legacy
 {
     public static class DirectoryInfoExtensions
     {

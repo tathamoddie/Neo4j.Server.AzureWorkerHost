@@ -1,6 +1,6 @@
 using Microsoft.WindowsAzure.ServiceRuntime;
 
-namespace AzureWorkerHost.Utils
+namespace AzureWorkerHost.Legacy
 {
     internal interface ILocalResourceManager
     {

@@ -1,4 +1,4 @@
-namespace AzureWorkerHost
+namespace AzureWorkerHost.Legacy
 {
     public interface IZipping
     {

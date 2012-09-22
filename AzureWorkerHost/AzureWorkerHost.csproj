@@ -54,29 +54,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExceptionMessages.cs" />
-    <Compile Include="ICloudDriveManager.cs" />
-    <Compile Include="INeo4jServerConfigSettings.cs" />
+    <Compile Include="Legacy\ICloudDriveManager.cs" />
+    <Compile Include="Legacy\INeo4jServerConfigSettings.cs" />
     <Compile Include="IRoleEnvironment.cs" />
-    <Compile Include="IZipping.cs" />
-    <Compile Include="Neo4jManager.cs" />
-    <Compile Include="Neo4jServerConfigSettings.cs" />
+    <Compile Include="Legacy\IZipping.cs" />
+    <Compile Include="Legacy\Neo4jManager.cs" />
+    <Compile Include="Legacy\Neo4jServerConfigSettings.cs" />
     <Compile Include="NeoServer.cs" />
     <Compile Include="NeoServerConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleEnvironmentWrapper.cs" />
-    <Compile Include="UriExtensions.cs" />
-    <Compile Include="Utils\AzureHelper.cs" />
-    <Compile Include="Utils\ConfigConstants.cs" />
-    <Compile Include="Utils\DirectoryInfoExtensions.cs" />
-    <Compile Include="Utils\FileManipulation.cs" />
-    <Compile Include="Utils\IConfiguration.cs" />
-    <Compile Include="Utils\IFileManipulation.cs" />
-    <Compile Include="Utils\ILocalResourceManager.cs" />
-    <Compile Include="Utils\IPaths.cs" />
-    <Compile Include="Utils\LineSearchOptions.cs" />
-    <Compile Include="Utils\Paths.cs" />
-    <Compile Include="Utils\Replacement.cs" />
-    <Compile Include="Utils\ReplaceType.cs" />
+    <Compile Include="Legacy\UriExtensions.cs" />
+    <Compile Include="Legacy\AzureHelper.cs" />
+    <Compile Include="Legacy\ConfigConstants.cs" />
+    <Compile Include="Legacy\DirectoryInfoExtensions.cs" />
+    <Compile Include="Legacy\FileManipulation.cs" />
+    <Compile Include="Legacy\IConfiguration.cs" />
+    <Compile Include="Legacy\IFileManipulation.cs" />
+    <Compile Include="Legacy\ILocalResourceManager.cs" />
+    <Compile Include="Legacy\IPaths.cs" />
+    <Compile Include="Legacy\LineSearchOptions.cs" />
+    <Compile Include="Legacy\Paths.cs" />
+    <Compile Include="Legacy\Replacement.cs" />
+    <Compile Include="Legacy\ReplaceType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Neo4j.Server.AzureWorkerHost.nuspec" />

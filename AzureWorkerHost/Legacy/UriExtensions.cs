@@ -1,6 +1,6 @@
 using System;
 
-namespace AzureWorkerHost
+namespace AzureWorkerHost.Legacy
 {
     internal static class UriExtensions
     {

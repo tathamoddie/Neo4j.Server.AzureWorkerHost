@@ -1,4 +1,4 @@
-namespace AzureWorkerHost.Utils
+namespace AzureWorkerHost.Legacy
 {
     public enum LineSearchOptions
     {
