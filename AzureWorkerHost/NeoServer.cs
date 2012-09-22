@@ -94,13 +94,12 @@ namespace Neo4j.Server.AzureWorkerHost
 
         internal void InterrogateJavaArtifact()
         {
-            const string relativePathToJavaExe = @"bin\java.exe";
-            Context.JavaExePath = Path.Combine(Context.JavaDirectoryPath, relativePathToJavaExe);
+            Context.JavaExePath = Path.Combine(Context.JavaDirectoryPath, configuration.JavaExeRelativePath);
 
             if (!fileSystem.File.Exists(Context.JavaExePath))
                 throw new ApplicationException(string.Format(
                     ExceptionMessages.JavaExeNotFound,
-                    relativePathToJavaExe,
+                    configuration.JavaExeRelativePath,
                     Context.JavaExePath));
 
             Loggers.WriteLine("java.exe found at {0}", Context.JavaExePath);
