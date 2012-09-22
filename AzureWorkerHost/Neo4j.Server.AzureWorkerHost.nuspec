@@ -11,5 +11,8 @@
     <description>Makes it super easy to host Neo4j in an Azure worker role</description>
     <copyright>Copyright 2012</copyright>
     <tags>Neo4j Azure GraphDB</tags>
+    <dependencies>
+      <dependency id="WindowsAzure.Storage" version="1.7" />
+    </dependencies>
   </metadata>
 </package>
