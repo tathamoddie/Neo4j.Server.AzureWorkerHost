@@ -1,7 +1,7 @@
 using System.IO;
 using Microsoft.WindowsAzure;
 
-namespace AzureWorkerHost.Legacy
+namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
     public interface ICloudDriveManager
     {

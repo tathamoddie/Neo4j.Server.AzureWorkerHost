@@ -1,6 +1,6 @@
 using Microsoft.WindowsAzure.ServiceRuntime;
 
-namespace AzureWorkerHost.AzureMocks
+namespace Neo4j.Server.AzureWorkerHost.AzureMocks
 {
     public class RoleEnvironmentWrapper : IRoleEnvironment
     {

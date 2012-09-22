@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
-using AzureWorkerHost.AzureMocks;
-using AzureWorkerHost.Diagnostics;
-using AzureWorkerHost.Legacy;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.StorageClient;
+using Neo4j.Server.AzureWorkerHost.AzureMocks;
+using Neo4j.Server.AzureWorkerHost.Diagnostics;
+using Neo4j.Server.AzureWorkerHost.Legacy;
 
-namespace AzureWorkerHost
+namespace Neo4j.Server.AzureWorkerHost
 {
     public class NeoServer
     {

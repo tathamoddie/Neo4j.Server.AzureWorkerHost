@@ -1,7 +1,7 @@
 using System.IO;
 using System.Linq;
 
-namespace AzureWorkerHost.Legacy
+namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
     public static class DirectoryInfoExtensions
     {

@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace AzureWorkerHost.Diagnostics
+namespace Neo4j.Server.AzureWorkerHost.Diagnostics
 {
     public class TraceLogger : ILogger
     {

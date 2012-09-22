@@ -1,4 +1,4 @@
-﻿using AzureWorkerHost.AzureMocks;
+﻿using Neo4j.Server.AzureWorkerHost.AzureMocks;
 
 namespace Tests.AzureMocks
 {

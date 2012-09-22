@@ -1,6 +1,6 @@
 using System;
 
-namespace AzureWorkerHost.Legacy
+namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
     internal static class UriExtensions
     {

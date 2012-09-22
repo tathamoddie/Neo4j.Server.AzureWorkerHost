@@ -1,6 +1,6 @@
 using Microsoft.WindowsAzure.ServiceRuntime;
 
-namespace AzureWorkerHost.Legacy
+namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
     internal interface ILocalResourceManager
     {

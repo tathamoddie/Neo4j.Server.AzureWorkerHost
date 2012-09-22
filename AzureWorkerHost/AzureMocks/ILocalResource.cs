@@ -1,4 +1,4 @@
-namespace AzureWorkerHost.AzureMocks
+namespace Neo4j.Server.AzureWorkerHost.AzureMocks
 {
     public interface ILocalResource
     {

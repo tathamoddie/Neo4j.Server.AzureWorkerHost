@@ -5,7 +5,7 @@ using System.IO;
 using System.Net;
 using Microsoft.WindowsAzure.ServiceRuntime;
 
-namespace AzureWorkerHost.Legacy
+namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
     internal class Paths : IPaths
     {

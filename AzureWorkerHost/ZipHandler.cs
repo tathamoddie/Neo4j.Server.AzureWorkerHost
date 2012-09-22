@@ -1,6 +1,6 @@
 using Ionic.Zip;
 
-namespace AzureWorkerHost
+namespace Neo4j.Server.AzureWorkerHost
 {
     public class ZipHandler : IZipHandler
     {

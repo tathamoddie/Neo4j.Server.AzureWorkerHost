@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
 
-namespace AzureWorkerHost.Legacy
+namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
     public class Neo4JManager
     {

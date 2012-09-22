@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AzureWorkerHost.Diagnostics
+namespace Neo4j.Server.AzureWorkerHost.Diagnostics
 {
     internal static class LogExtensions
     {

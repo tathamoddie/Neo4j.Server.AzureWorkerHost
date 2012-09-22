@@ -7,8 +7,8 @@
     <ProjectGuid>{DE91BC76-F5D2-44B5-B907-E50C1F767D20}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AzureWorkerHost</RootNamespace>
-    <AssemblyName>AzureWorkerHost</AssemblyName>
+    <RootNamespace>Neo4j.Server.AzureWorkerHost</RootNamespace>
+    <AssemblyName>Neo4j.Server.AzureWorkerHost</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

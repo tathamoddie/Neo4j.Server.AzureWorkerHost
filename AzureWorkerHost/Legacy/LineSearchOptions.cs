@@ -1,4 +1,4 @@
-namespace AzureWorkerHost.Legacy
+namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
     public enum LineSearchOptions
     {

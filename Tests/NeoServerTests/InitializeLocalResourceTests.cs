@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using AzureWorkerHost;
-using AzureWorkerHost.AzureMocks;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using NSubstitute;
+using Neo4j.Server.AzureWorkerHost;
+using Neo4j.Server.AzureWorkerHost.AzureMocks;
 using Tests.AzureMocks;
 using Xunit;
 

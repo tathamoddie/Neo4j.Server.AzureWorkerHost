@@ -1,4 +1,4 @@
-namespace AzureWorkerHost
+namespace Neo4j.Server.AzureWorkerHost
 {
     internal class NeoRuntimeContext
     {

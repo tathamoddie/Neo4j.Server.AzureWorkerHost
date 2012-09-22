@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net;
 
-namespace AzureWorkerHost.Legacy
+namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
     public interface IPaths
     {
