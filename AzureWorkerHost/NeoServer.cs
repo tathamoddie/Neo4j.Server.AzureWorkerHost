@@ -1,4 +1,5 @@
 ﻿using System;
+using AzureWorkerHost.AzureMocks;
 using Microsoft.WindowsAzure.ServiceRuntime;
 
 namespace AzureWorkerHost
@@ -30,7 +31,7 @@ namespace AzureWorkerHost
 
         internal void InitializeLocalResource()
         {
-            LocalResource localResource;
+            ILocalResource localResource;
             try
             {
                 localResource = roleEnvironment.GetLocalResource(configuration.NeoLocalResourceName);

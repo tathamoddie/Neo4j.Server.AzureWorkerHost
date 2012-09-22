@@ -2,8 +2,10 @@
 using System.Linq;
 using System.Reflection;
 using AzureWorkerHost;
+using AzureWorkerHost.AzureMocks;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using NSubstitute;
+using Tests.AzureMocks;
 using Xunit;
 
 namespace Tests.NeoServerTests
@@ -55,6 +57,25 @@ namespace Tests.NeoServerTests
                 // Act
                 () => server.InitializeLocalResource());
             Assert.Same(thrownException, exposedException.InnerException);
+        }
+
+        [Fact]
+        public void ShouldSetPathIntoContext()
+        {
+            // Arrange
+            var roleEnvironment = Substitute.For<IRoleEnvironment>();
+            roleEnvironment
+                .GetLocalResource("foo")
+                .Returns(new MockLocalResource { RootPath = @"t:\SomePath" });
+            var server = new NeoServer(
+                new NeoServerConfiguration { NeoLocalResourceName = "foo" },
+                roleEnvironment);
+
+            // Act
+            server.InitializeLocalResource();
+
+            // Asset
+            Assert.Equal(@"t:\SomePath", server.Context.LocalResourcePath);
         }
     }
 }

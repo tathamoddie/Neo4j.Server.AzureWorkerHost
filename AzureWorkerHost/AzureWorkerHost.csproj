@@ -53,10 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AzureMocks\ILocalResource.cs" />
+    <Compile Include="AzureMocks\LocalResourceWrapper.cs" />
     <Compile Include="ExceptionMessages.cs" />
     <Compile Include="Legacy\ICloudDriveManager.cs" />
     <Compile Include="Legacy\INeo4jServerConfigSettings.cs" />
-    <Compile Include="IRoleEnvironment.cs" />
+    <Compile Include="AzureMocks\IRoleEnvironment.cs" />
     <Compile Include="Legacy\IZipping.cs" />
     <Compile Include="Legacy\Neo4jManager.cs" />
     <Compile Include="Legacy\Neo4jServerConfigSettings.cs" />
@@ -64,7 +66,7 @@
     <Compile Include="NeoServer.cs" />
     <Compile Include="NeoServerConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RoleEnvironmentWrapper.cs" />
+    <Compile Include="AzureMocks\RoleEnvironmentWrapper.cs" />
     <Compile Include="Legacy\UriExtensions.cs" />
     <Compile Include="Legacy\AzureHelper.cs" />
     <Compile Include="Legacy\ConfigConstants.cs" />
