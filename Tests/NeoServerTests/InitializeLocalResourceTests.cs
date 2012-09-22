@@ -26,7 +26,9 @@ namespace Tests.NeoServerTests
                 .Returns(ci => { throw thrownException; });
             var server = new NeoServer(
                 new NeoServerConfiguration { NeoLocalResourceName = "foo" },
-                roleEnvironment);
+                roleEnvironment,
+                null,
+                null);
 
             // Assert
             var exposedException = Assert.Throws<ApplicationException>(
@@ -50,7 +52,9 @@ namespace Tests.NeoServerTests
                 .Returns(ci => { throw thrownException; });
             var server = new NeoServer(
                 new NeoServerConfiguration { NeoLocalResourceName = "foo"},
-                roleEnvironment);
+                roleEnvironment,
+                null,
+                null);
 
             // Assert
             var exposedException = Assert.Throws<ApplicationException>(
@@ -69,7 +73,9 @@ namespace Tests.NeoServerTests
                 .Returns(new MockLocalResource { RootPath = @"t:\SomePath" });
             var server = new NeoServer(
                 new NeoServerConfiguration { NeoLocalResourceName = "foo" },
-                roleEnvironment);
+                roleEnvironment,
+                null,
+                null);
 
             // Act
             server.InitializeLocalResource();

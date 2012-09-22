@@ -46,6 +46,9 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.IO.Abstractions">
+      <HintPath>..\packages\System.IO.Abstractions.1.4.0.32\lib\net35\System.IO.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,9 +56,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AzureMocks\CloudBlobClientWrapper.cs" />
     <Compile Include="AzureMocks\ILocalResource.cs" />
     <Compile Include="AzureMocks\LocalResourceWrapper.cs" />
     <Compile Include="ExceptionMessages.cs" />
+    <Compile Include="AzureMocks\ICloudBlobClient.cs" />
     <Compile Include="Legacy\ICloudDriveManager.cs" />
     <Compile Include="Legacy\INeo4jServerConfigSettings.cs" />
     <Compile Include="AzureMocks\IRoleEnvironment.cs" />
