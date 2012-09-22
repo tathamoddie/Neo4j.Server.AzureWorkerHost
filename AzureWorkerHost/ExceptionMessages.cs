@@ -13,5 +13,10 @@
 1) download and install JRE7 on a development machine (just one, once)
 2) ZIP the contents of c:\Program Files (x86)\Java\jre7\ to a file called jre7.zip
 3) upload the result to the blob location";
+
+        public const string NeoArtifactPreparationHint = @"You need to:
+
+1) download http://download.neo4j.org/artifact?edition=community&version=1.8.RC1&distribution=zip
+2) upload the file to the blob location";
     }
 }

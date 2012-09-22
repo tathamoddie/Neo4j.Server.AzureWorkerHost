@@ -57,6 +57,7 @@ namespace AzureWorkerHost
         {
             InitializeLocalResource();
             DownloadJava();
+            DownloadNeo();
         }
 
         internal void InitializeLocalResource()
@@ -82,18 +83,29 @@ namespace AzureWorkerHost
 
         internal void DownloadJava()
         {
+            Context.JavaDirectoryPath = Path.Combine(Context.LocalResourcePath, configuration.JavaDirectoryName);
             DownloadArtifact(
                 "Java Runtime Environment",
                 ExceptionMessages.JavaArtifactPreparationHint,
                 configuration.JavaBlobName,
-                configuration.JavaDirectoryName);
+                Context.JavaDirectoryPath);
+        }
+
+        internal void DownloadNeo()
+        {
+            Context.NeoDirectoryPath = Path.Combine(Context.LocalResourcePath, configuration.NeoDirectoryName);
+            DownloadArtifact(
+                "Neo4j",
+                ExceptionMessages.NeoArtifactPreparationHint,
+                configuration.NeoBlobName,
+                Context.NeoDirectoryPath);
         }
 
         internal void DownloadArtifact(
             string friendlyName,
             string artifactPreparationHint,
             string blobName,
-            string targetDirectory)
+            string targetDirectoryPath)
         {
             Loggers.WriteLine("Downloading {0} from {1}", friendlyName, blobName);
             var blobAddress = cloudBlobClient.BaseUri.Append(blobName).AbsoluteUri;
@@ -131,10 +143,9 @@ namespace AzureWorkerHost
             }
             Loggers.WriteLine("Downloaded {0} to disk", friendlyName);
 
-            var directoryPathOnDisk = Path.Combine(Context.LocalResourcePath, targetDirectory);
-            Loggers.WriteLine("Unzipping artifact to {0}", directoryPathOnDisk);
-            zipHandler.Extract(filePathOnDisk, directoryPathOnDisk);
-            Loggers.WriteLine("Unzipped artifact to {0}", directoryPathOnDisk);
+            Loggers.WriteLine("Unzipping artifact to {0}", targetDirectoryPath);
+            zipHandler.Extract(filePathOnDisk, targetDirectoryPath);
+            Loggers.WriteLine("Unzipped artifact to {0}", targetDirectoryPath);
         }
     }
 }
