@@ -59,8 +59,10 @@
     <Compile Include="AzureMocks\CloudBlobClientWrapper.cs" />
     <Compile Include="AzureMocks\ILocalResource.cs" />
     <Compile Include="AzureMocks\LocalResourceWrapper.cs" />
+    <Compile Include="Diagnostics\LogExtensions.cs" />
     <Compile Include="ExceptionMessages.cs" />
     <Compile Include="AzureMocks\ICloudBlobClient.cs" />
+    <Compile Include="Diagnostics\ILogger.cs" />
     <Compile Include="Legacy\ICloudDriveManager.cs" />
     <Compile Include="Legacy\INeo4jServerConfigSettings.cs" />
     <Compile Include="AzureMocks\IRoleEnvironment.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="Legacy\Paths.cs" />
     <Compile Include="Legacy\Replacement.cs" />
     <Compile Include="Legacy\ReplaceType.cs" />
+    <Compile Include="Diagnostics\TraceLogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Neo4j.Server.AzureWorkerHost.nuspec" />
