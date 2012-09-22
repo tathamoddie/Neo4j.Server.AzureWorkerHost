@@ -16,5 +16,10 @@ namespace Neo4j.Server.AzureWorkerHost
         /// Path on disk where Neo will be unzipped to
         /// </summary>
         public string NeoDirectoryPath { get; set; }
+
+        /// <summary>
+        /// Full path to java.exe on disk
+        /// </summary>
+        public string JavaExePath { get; set; }
     }
 }

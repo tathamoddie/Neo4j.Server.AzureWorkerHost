@@ -57,6 +57,7 @@ namespace Neo4j.Server.AzureWorkerHost
         {
             InitializeLocalResource();
             DownloadJava();
+            InterrogateJavaArtifact();
             DownloadNeo();
         }
 
@@ -89,6 +90,20 @@ namespace Neo4j.Server.AzureWorkerHost
                 ExceptionMessages.JavaArtifactPreparationHint,
                 configuration.JavaBlobName,
                 Context.JavaDirectoryPath);
+        }
+
+        internal void InterrogateJavaArtifact()
+        {
+            const string relativePathToJavaExe = @"bin\java.exe";
+            Context.JavaExePath = Path.Combine(Context.JavaDirectoryPath, relativePathToJavaExe);
+
+            if (!fileSystem.File.Exists(Context.JavaExePath))
+                throw new ApplicationException(string.Format(
+                    ExceptionMessages.JavaExeNotFound,
+                    relativePathToJavaExe,
+                    Context.JavaExePath));
+
+            Loggers.WriteLine("java.exe found at {0}", Context.JavaExePath);
         }
 
         internal void DownloadNeo()

@@ -18,5 +18,9 @@
 
 1) download http://download.neo4j.org/artifact?edition=community&version=1.8.RC1&distribution=zip
 2) upload the file to the blob location";
+
+        public const string JavaExeNotFound = @"After downloading and unzipping the Java blob, we expected but failed to find java.exe at {0}.
+
+On disk, this path corresponds to: {1}";
     }
 }
