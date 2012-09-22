@@ -61,7 +61,9 @@
   <ItemGroup>
     <Compile Include="AzureMocks\CloudBlobClientWrapper.cs" />
     <Compile Include="AzureMocks\ILocalResource.cs" />
+    <Compile Include="AzureMocks\IRoleInstance.cs" />
     <Compile Include="AzureMocks\LocalResourceWrapper.cs" />
+    <Compile Include="AzureMocks\RoleInstanceWrapper.cs" />
     <Compile Include="Diagnostics\LogExtensions.cs" />
     <Compile Include="ExceptionMessages.cs" />
     <Compile Include="AzureMocks\ICloudBlobClient.cs" />

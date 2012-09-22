@@ -9,5 +9,10 @@ namespace Neo4j.Server.AzureWorkerHost.AzureMocks
             var resource = RoleEnvironment.GetLocalResource(localResourceName);
             return new LocalResourceWrapper(resource);
         }
+
+        public IRoleInstance CurrentRoleInstance
+        {
+            get { return new RoleInstanceWrapper(RoleEnvironment.CurrentRoleInstance); }
+        }
     }
 }

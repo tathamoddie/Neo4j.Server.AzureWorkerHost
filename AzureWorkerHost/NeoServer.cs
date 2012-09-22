@@ -61,6 +61,11 @@ namespace Neo4j.Server.AzureWorkerHost
             DownloadNeo();
         }
 
+        public void Start()
+        {
+            InitializeEndpoint();
+        }
+
         internal void InitializeLocalResource()
         {
             Loggers.WriteLine("Initializing local resource: {0}", configuration.NeoLocalResourceName);
@@ -158,8 +163,30 @@ namespace Neo4j.Server.AzureWorkerHost
             Loggers.WriteLine("Downloaded {0} to disk", friendlyName);
 
             Loggers.WriteLine("Unzipping artifact to {0}", targetDirectoryPath);
-            zipHandler.Extract(filePathOnDisk, targetDirectoryPath);
+            try
+            {
+                zipHandler.Extract(filePathOnDisk, targetDirectoryPath);
+            }
+            catch (PathTooLongException ex)
+            {
+                throw new ApplicationException(
+                    string.Format(ExceptionMessages.PathTooLongWhileUnzipping, Context.LocalResourcePath.Length),
+                    ex);
+            }
             Loggers.WriteLine("Unzipped artifact to {0}", targetDirectoryPath);
+        }
+
+        internal void InitializeEndpoint()
+        {
+            var endpoints = roleEnvironment.CurrentRoleInstance.InstanceEndpoints;
+            if (!endpoints.ContainsKey(configuration.NeoEndpointId))
+                throw new ArgumentException(string.Format(
+                    ExceptionMessages.NeoEndpointNotFound,
+                    configuration.NeoEndpointId));
+
+            Context.NeoEndpoint = endpoints[configuration.NeoEndpointId].IPEndpoint;
+
+            Loggers.WriteLine("Local endpoint is: {0}", Context.NeoEndpoint);
         }
     }
 }

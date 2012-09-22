@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Neo4j.Server.AzureWorkerHost
 {
     internal class NeoRuntimeContext
@@ -21,5 +23,10 @@ namespace Neo4j.Server.AzureWorkerHost
         /// Full path to java.exe on disk
         /// </summary>
         public string JavaExePath { get; set; }
+
+        /// <summary>
+        /// Endpoint that Neo4j has to listen on to be available to other roles
+        /// </summary>
+        public IPEndPoint NeoEndpoint { get; set; }
     }
 }
