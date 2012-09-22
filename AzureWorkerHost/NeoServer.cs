@@ -110,7 +110,7 @@ namespace AzureWorkerHost
                 fileSystem.File.Delete(pathOnDisk);
             }
 
-            Loggers.WriteLine("Downloading blob to disk");
+            Loggers.WriteLine("Downloading {0} to disk", friendlyName);
             try
             {
                 blob.DownloadToFile(pathOnDisk);
@@ -123,6 +123,7 @@ namespace AzureWorkerHost
                 Loggers.Fail(exceptionToThrow, "Failed to download {0}", friendlyName);
                 throw exceptionToThrow;
             }
+            Loggers.WriteLine("Downloaded {0} to disk", friendlyName);
         }
     }
 }
