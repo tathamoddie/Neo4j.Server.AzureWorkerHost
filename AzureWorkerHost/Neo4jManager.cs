@@ -171,17 +171,6 @@ namespace AzureWorkerHost
             Trace.TraceInformation("Stopped Neo4j.");
         }
 
-        //public DirectoryConfiguration GetLogDirectory()
-        //{
-        //    var localNeo4JLogsPath = paths.Neo4JLogPath;
-        //    return new DirectoryConfiguration
-        //               {
-        //                   Container = paths.Neo4JLogsContainerName,
-        //                   DirectoryQuotaInMB = 1000,
-        //                   Path = localNeo4JLogsPath.FullName
-        //               };
-        //}
-
         internal void FindRequiredFilesAndDirectories()
         {
             javaExeFile = paths.JavaExeFile;

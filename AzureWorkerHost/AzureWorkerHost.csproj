@@ -65,12 +65,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleEnvironmentWrapper.cs" />
     <Compile Include="UriExtensions.cs" />
+    <Compile Include="Utils\AzureHelper.cs" />
+    <Compile Include="Utils\ConfigConstants.cs" />
+    <Compile Include="Utils\DirectoryInfoExtensions.cs" />
     <Compile Include="Utils\FileManipulation.cs" />
+    <Compile Include="Utils\IConfiguration.cs" />
     <Compile Include="Utils\IFileManipulation.cs" />
+    <Compile Include="Utils\ILocalResourceManager.cs" />
     <Compile Include="Utils\IPaths.cs" />
     <Compile Include="Utils\LineSearchOptions.cs" />
     <Compile Include="Utils\Paths.cs" />
     <Compile Include="Utils\Replacement.cs" />
+    <Compile Include="Utils\ReplaceType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Neo4j.Server.AzureWorkerHost.nuspec" />

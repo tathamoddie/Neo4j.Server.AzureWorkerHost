@@ -5,9 +5,6 @@ using System.Linq;
 
 namespace AzureWorkerHost.Utils
 {
-
-    enum ReplaceType {Line, Value}
-
     public class FileManipulation : IFileManipulation
     {
         public void ReplaceConfigLine(FileInfo fileToRead, params Replacement[] replacements)

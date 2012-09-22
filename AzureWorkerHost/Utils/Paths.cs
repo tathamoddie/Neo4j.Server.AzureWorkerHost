@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
 using Microsoft.WindowsAzure.ServiceRuntime;
 
@@ -37,8 +36,6 @@ namespace AzureWorkerHost.Utils
             this.configuration = configuration;
             this.neo4JServerConfigSettings = neo4JServerConfigSettings;
         }
-
-        #region IPaths Members
 
         public DirectoryInfo Neo4JInstRoot
         {
@@ -275,92 +272,6 @@ namespace AzureWorkerHost.Utils
 
                 return Neo4jDBPath;
             }
-        }
-
-        #endregion
-    }
-
-    public interface IConfiguration
-    {
-        object Neo4JdbDriveOverridePath();
-        string Neo4JdbDriveBlobSizeIfNotExists();
-        string NewRelicBlobRelativePath();
-        string Neo4JdbVirtualHardDriveBlobName();
-        string NewRelicConfigFileName();
-        string Neo4JLogsContainerName();
-        string Neo4JAdminUri();
-        string Neo4JDataUri();
-        string Neo4JWrapperSettingLogFile();
-        string Neo4JWrapperConfigFileName();
-        string Neo4JConfigFileName();
-        string Neo4JLoggingFileName();
-        string JavaExeFileName();
-        string Neo4JExeFileName();
-        string Neo4JLogFolderPath();
-        string Neo4JServerConfigFileName();
-        string JavaBlobNameSetting();
-        string CloudDriveDatabaseMountPath();
-        bool Neo4JAllowStoreUpgrade();
-        string Neo4JLoggingMinHeapPattern();
-        string Neo4JLoggingMaxHeapPattern();
-        string Neo4JLoggingMinHeap();
-        string Neo4JLoggingMaxHeap();
-        bool Neo4JWrapperEnableGarbageCollectionLogging();
-        string Neo4JWrapperGarbageCollectionLoggingCommand();
-        string JvmSwitches();
-        string Neo4JLoggingLevelPattern();
-        string Neo4JLoggingLevel();
-        string Neo4JBlobNameSetting();
-    }
-
-    internal class AzureHelper
-    {
-        public static string GetAzureLocalDeployPath(object neo4JdbDriveOverridePath)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    internal class ConfigConstants
-    {
-        public static string Neo4JEndpoint
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-
-        public static object LocalNeo4JInstallation
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-
-        public static string DriveConnectionString
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-    }
-
-    internal interface ILocalResourceManager
-    {
-        LocalResource GetLocalResource(object localNeo4JInstallation);
-    }
-
-    public static class DirectoryInfoExtensions
-    {
-        public static FileInfo FindFile(this DirectoryInfo directoryInfo, string fileName)
-        {
-            return directoryInfo
-                .GetFiles("*.*", SearchOption.AllDirectories)
-                .Single(fi => fi.Name == fileName);
-        }
-
-        public static DirectoryInfo FindDirectoryThatEndsWith(this DirectoryInfo directoryInfo, string directoryPathEnd)
-        {
-            return directoryInfo
-                .GetDirectories("*", SearchOption.AllDirectories)
-                .Single(di => di.Name.EndsWith(directoryPathEnd));
         }
     }
 }
