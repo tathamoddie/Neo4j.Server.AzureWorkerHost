@@ -16,8 +16,6 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
 
         bool hasExited;
 
-        FileInfo javaExeFile;
-        FileInfo neo4JExeFile;
         Process neo4JProcess;
 
         public Neo4JManager(
@@ -47,7 +45,7 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
             //UnzipAllZipFiles();
 
             // Validate
-            FindRequiredFilesAndDirectories();
+            //FindRequiredFilesAndDirectories();
 
             // Configure
             SetDatabaseConfiguration();
@@ -161,26 +159,6 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
                 neo4JProcess.WaitForExit((int)TimeSpan.FromMinutes(10).TotalMilliseconds);
             }
             Trace.TraceInformation("Stopped Neo4j.");
-        }
-
-        internal void FindRequiredFilesAndDirectories()
-        {
-            javaExeFile = paths.JavaExeFile;
-            ConfirmFileOrThrow(javaExeFile, "Cannot find the file path to the JRE.");
-
-            neo4JExeFile = paths.Neo4JExeFile;
-            ConfirmFileOrThrow(neo4JExeFile, "Cannot find the file path to the Neo4j server.");
-        }
-
-        internal static void ConfirmFileOrThrow(FileInfo fileInfo, string message)
-        {
-            if (fileInfo != null)
-            {
-                return;
-            }
-
-            Trace.TraceError(message);
-            throw new Exception(message);
         }
 
         internal DirectoryInfo MountDatabaseLocation()
