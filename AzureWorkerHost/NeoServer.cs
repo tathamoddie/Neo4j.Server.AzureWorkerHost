@@ -63,6 +63,7 @@ namespace Neo4j.Server.AzureWorkerHost
             DownloadNeo();
             InterrogateNeoArtifact();
             ApplyWorkaroundForJavaResolutionIssue();
+            ApplyEndpointConfiguration();
         }
 
         public void Start()
@@ -165,6 +166,29 @@ namespace Neo4j.Server.AzureWorkerHost
             fileSystem.File.WriteAllText(baseBatPath, fileContents);
 
             Loggers.WriteLine("Patched " + baseBatPath);
+        }
+
+        internal void ApplyEndpointConfiguration()
+        {
+            Loggers.WriteLine("Applying endpoint configuration");
+
+            var configPath = Path.Combine(Context.NeoDirectoryPath, @"conf\neo4j-server.properties");
+            if (!fileSystem.File.Exists(configPath))
+                throw new ApplicationException();
+
+            var fileContents = fileSystem.File.ReadAllText(configPath);
+            fileContents = Regex.Replace(fileContents,
+                "(?mi:^[#]?org.neo4j.server.webserver.address=[^\\r]*)",
+                "org.neo4j.server.webserver.address=" + Context.NeoEndpoint.Address);
+            fileContents = Regex.Replace(fileContents,
+                "(?mi:^[#]?org.neo4j.server.webserver.port=[^\\r]*)",
+                "org.neo4j.server.webserver.port=" + Context.NeoEndpoint.Port);
+            fileContents = Regex.Replace(fileContents,
+                "(?mi:^[#]?org.neo4j.server.webserver.https.enabled=[^\\r]*)",
+                "org.neo4j.server.webserver.https.enabled=false");
+            fileSystem.File.WriteAllText(configPath, fileContents);
+
+            Loggers.WriteLine("Patched " + configPath);
         }
 
         internal void DownloadArtifact(
