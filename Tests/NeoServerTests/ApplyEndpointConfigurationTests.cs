@@ -3,18 +3,23 @@ using System.IO.Abstractions.TestingHelpers;
 using System.Net;
 using Neo4j.Server.AzureWorkerHost;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Tests.NeoServerTests
 {
     public class ApplyEndpointConfigurationTests
     {
-        [Fact]
-        public void ShouldPatchIpAndPortAndSsl()
+        [Theory]
+        [InlineData("#org.neo4j.server.webserver.address=0.0.0.0", "org.neo4j.server.webserver.address=1.2.3.4")]
+        [InlineData("org.neo4j.server.webserver.port=7474", "org.neo4j.server.webserver.port=5678")]
+        [InlineData("org.neo4j.server.webserver.https.enabled=true", "org.neo4j.server.webserver.https.enabled=false")]
+        [InlineData(OriginalConfigFileContents, PatchedConfigFileContents)]
+        public void ShouldPatchIpAndPortAndSsl(string input, string expected)
         {
             // Arrange
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                { @"c:\temp\neo4j\conf\neo4j-server.properties", new MockFileData(OriginalConfigFileContents) }
+                { @"c:\temp\neo4j\conf\neo4j-server.properties", new MockFileData(input) }
             });
             var server = new NeoServer(new NeoServerConfiguration(), null, null, fileSystem, null);
             server.Context.NeoEndpoint = new IPEndPoint(IPAddress.Parse("1.2.3.4"), 5678);
@@ -26,7 +31,7 @@ namespace Tests.NeoServerTests
 
             // Assert
             var content = fileSystem.File.ReadAllText(@"c:\temp\neo4j\conf\neo4j-server.properties");
-            Assert.Equal(PatchedConfigFileContents, content);
+            Assert.Equal(expected, content);
         }
 
         const string OriginalConfigFileContents = @"################################################################
