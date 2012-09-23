@@ -21,9 +21,9 @@ namespace Neo4j.Server.AzureWorkerHost
         public string NeoDirectoryPath { get; set; }
 
         /// <summary>
-        /// Full path to java.exe on disk
+        /// Full path to directory on disk that can be used as JAVA_HOME (should have bin\java.exe in it)
         /// </summary>
-        public string JavaExePath { get; set; }
+        public string JavaHomePath { get; set; }
 
         /// <summary>
         /// Full path to neo4j.bat on disk

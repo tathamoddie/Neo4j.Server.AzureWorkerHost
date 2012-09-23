@@ -109,15 +109,17 @@ namespace Neo4j.Server.AzureWorkerHost
 
         internal void InterrogateJavaArtifact()
         {
-            Context.JavaExePath = Path.Combine(Context.JavaDirectoryPath, configuration.JavaExeRelativePath);
+            Context.JavaHomePath = Path.Combine(Context.JavaDirectoryPath, configuration.JavaHomeRelativePath);
 
-            if (!fileSystem.File.Exists(Context.JavaExePath))
+            const string javaExePathRelativeToJavaHome = @"bin\java.exe";
+            var javaExePath = Path.Combine(Context.JavaHomePath, javaExePathRelativeToJavaHome);
+            if (!fileSystem.File.Exists(javaExePath))
                 throw new ApplicationException(string.Format(
                     ExceptionMessages.JavaExeNotFound,
-                    configuration.JavaExeRelativePath,
-                    Context.JavaExePath));
+                    Path.Combine(configuration.JavaHomeRelativePath, javaExePathRelativeToJavaHome),
+                    javaExePath));
 
-            Loggers.WriteLine("java.exe found at {0}", Context.JavaExePath);
+            Loggers.WriteLine("java.exe found at {0}", javaExePath);
         }
 
         internal void DownloadNeo()
@@ -236,16 +238,18 @@ namespace Neo4j.Server.AzureWorkerHost
 
         internal void LaunchNeoProcess()
         {
+            var startInfo = new ProcessStartInfo(Context.NeoBatPath)
+            {
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                WindowStyle = ProcessWindowStyle.Hidden
+            };
+            startInfo.EnvironmentVariables.Add("JAVA_HOME", Context.JavaHomePath);
             var neoProcess = Context.NeoProcess = new Process
             {
-                StartInfo = new ProcessStartInfo(Context.NeoBatPath)
-                {
-                    RedirectStandardInput = true,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    WindowStyle = ProcessWindowStyle.Hidden
-                }
+                StartInfo = startInfo
             };
 
             neoProcess.Exited += (sender, e) => Loggers.WriteLine("Neo4j process exited");

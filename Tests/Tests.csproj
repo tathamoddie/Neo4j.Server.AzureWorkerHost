@@ -68,6 +68,7 @@
     <Compile Include="AzureMocks\MockLocalResource.cs" />
     <Compile Include="NeoServerTests\ApplyWorkaroundForJavaResolutionIssueTests.cs" />
     <Compile Include="NeoServerTests\InitializeLocalResourceTests.cs" />
+    <Compile Include="NeoServerTests\InterrogateJavaArtifactTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
