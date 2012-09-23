@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Microsoft.WindowsAzure;
 
 namespace Neo4j.Server.AzureWorkerHost.Legacy
@@ -13,10 +12,6 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
         readonly IPaths paths;
         readonly ICloudDriveManager cloudDriveManager;
         readonly IConfiguration configuration;
-
-        bool hasExited;
-
-        Process neo4JProcess;
 
         public Neo4JManager(
             IFileManipulation fileManipulation,
@@ -29,8 +24,6 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
             this.configuration = configuration;
             this.fileManipulation = fileManipulation;
         }
-
-        public string Location { get; private set; }
 
         public void Install()
         {
@@ -49,11 +42,11 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
 
             // Configure
             SetDatabaseConfiguration();
-            SetServerConfiguration();
+            //SetServerConfiguration();
             SetWrapperConfiguration();
             SetLoggingConfiguration();
-            PatchPathsInBaseBat();
-            AddJavaFolderToEnvironmentPathVariable(paths);
+            //PatchPathsInBaseBat();
+            //AddJavaFolderToEnvironmentPathVariable(paths);
             
             // Database network drive
             var neo4JDbPath = MountDatabaseLocation();
@@ -77,88 +70,6 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
             {
                 Trace.WriteLine("Could not locate cloud drive");
             }
-        }
-
-        void PatchPathsInBaseBat()
-        {
-            var neo4JBinDirectory = paths.Neo4JExeFile.Directory;
-            Debug.Assert(neo4JBinDirectory != null, "neo4JBinDirectory != null");
-
-            var baseBatchFile = neo4JBinDirectory.GetFiles("base.bat").Single();
-
-            var content = File.ReadAllText(baseBatchFile.FullName);
-            content = Regex.Replace(content, "(?m:^java )", "\"%javaPath%\\bin\\java.exe\" ");
-            File.WriteAllText(baseBatchFile.FullName, content);
-        }
-
-        static void AddJavaFolderToEnvironmentPathVariable(IPaths paths)
-        {
-            if (paths.JavaExeFile.Directory == null)
-                throw new ArgumentException(@"JavaExeFile.Directory is null", "paths");
-
-            Debug.Assert(paths.JavaExeFile.Directory.Parent != null, "paths.JavaExeFile.Directory.Parent != null");
-            var javaFolder = paths.JavaExeFile.Directory.Parent.FullName;
-            Environment.SetEnvironmentVariable("JAVA_HOME", javaFolder, EnvironmentVariableTarget.Process);
-        }
-
-        public void Start()
-        {
-            if (neo4JProcess != null)
-            {
-                const string message = "Neo4j is already started.";
-                Trace.TraceError(message);
-                throw new Exception(message);
-            }
-
-
-            Trace.TraceInformation("Starting Neo4j on location: {0}", Location);
-
-            var startFileName = paths.Neo4JExeFile.FullName;
-            neo4JProcess = new Process
-            {
-                StartInfo = new ProcessStartInfo(startFileName)
-                {
-                    RedirectStandardInput = true,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    WindowStyle = ProcessWindowStyle.Hidden
-                }
-            };
-
-            neo4JProcess.Exited += (sender, e) =>
-            {
-                hasExited = true;
-                Trace.TraceInformation("Neo4j process exited.");
-            };
-            neo4JProcess.ErrorDataReceived += (sender, e) => Trace.TraceError(e.Data);
-            neo4JProcess.OutputDataReceived += (sender, e) => Trace.TraceInformation(e.Data);
-
-            try
-            {
-                neo4JProcess.Start();
-                neo4JProcess.BeginOutputReadLine();
-                neo4JProcess.BeginErrorReadLine();
-            }
-            catch (Exception e)
-            {
-                Trace.TraceError("Error running Neo4j: type <{0}> message <{1}> stack trace <{2}>.",
-                                 e.GetType().FullName, e.Message, e.StackTrace);
-                throw;
-            }
-        }
-
-        public void Stop()
-        {
-            if (neo4JProcess == null) return;
-
-            Trace.TraceInformation("Attempting to stop Neo4j.");
-            if (!hasExited)
-            {
-                neo4JProcess.StandardInput.Close();
-                neo4JProcess.WaitForExit((int)TimeSpan.FromMinutes(10).TotalMilliseconds);
-            }
-            Trace.TraceInformation("Stopped Neo4j.");
         }
 
         internal DirectoryInfo MountDatabaseLocation()
@@ -327,46 +238,6 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
 
             var fileName = paths.Neo4JServerConfigFile;
             fileManipulation.ReplaceConfigLine(fileName, replacement);
-
-            var destination = Path.GetFileName(paths.Neo4JServerConfigFile.Name);
-            if (destination == null)
-                throw new ApplicationException("Neo4jServerConfigFile must be present.");
-
-            File.Copy(paths.Neo4JServerConfigFile.FullName,
-                      Path.Combine(paths.Neo4JLogPath.FullName, destination),
-                      true);
-
-            Trace.TraceInformation("Finished setting Neo4j server settings.");
-        }
-
-        internal void SetServerConfiguration()
-        {
-            Trace.TraceInformation("Setting Neo4j server port and uri settings.");
-
-            var neo4JServerConfigSettings = paths.Neo4JServerConfigSettings;
-
-            var patternToFind = string.Format("{0}=", neo4JServerConfigSettings.Port);
-            var replaceWith = string.Format("{0}{1}", patternToFind, paths.Neo4JPort);
-            var replacement1 = Replacement.Create(patternToFind, replaceWith);
-
-            var neo4JAdminDataUri = paths.GetNeo4JDataUri();
-            patternToFind = string.Format("{0}=", neo4JServerConfigSettings.WebAdminDataUri);
-            replaceWith = string.Concat(patternToFind, neo4JAdminDataUri.AbsolutePath);
-            var replacement2 = Replacement.Create(patternToFind, replaceWith);
-
-            var neo4JAdminManagementUri = paths.GetNeo4JAdminManagementUri();
-            patternToFind = string.Format("{0}=", neo4JServerConfigSettings.WebAdminManagementUri);
-            replaceWith = string.Format("{0}{1}", patternToFind, neo4JAdminManagementUri.AbsolutePath);
-            var replacement3 = Replacement.Create(patternToFind, replaceWith);
-
-            patternToFind = string.Format("{0}=", neo4JServerConfigSettings.IpAddress);
-            replaceWith = string.Format("{0}{1}", patternToFind, "0.0.0.0");
-            var replacement4 = Replacement.Create(patternToFind, replaceWith);
-
-            Location = neo4JAdminManagementUri.AbsoluteUri;
-
-            var fileName = paths.Neo4JServerConfigFile;
-            fileManipulation.ReplaceConfigLine(fileName, replacement1, replacement2, replacement3, replacement4);
 
             var destination = Path.GetFileName(paths.Neo4JServerConfigFile.Name);
             if (destination == null)
