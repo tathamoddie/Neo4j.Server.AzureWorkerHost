@@ -43,5 +43,9 @@ Get-Process devenv -ErrorAction SilentlyContinue | Stop-Process
         public const string NeoBatNotFound = @"After downloading and unzipping the Neo4j distribution, we expected but failed to find neo4j.bat at {0}.
 
 On disk, this path corresponds to: {1}";
+
+        public const string NeoServerConfigNotFound = @"After downloading and unzipping the Neo4j distribution, we expected but failed to find neo4j-server.properties at {0}.
+
+On disk, this path corresponds to: {1}";
     }
 }

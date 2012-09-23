@@ -135,15 +135,19 @@ namespace Neo4j.Server.AzureWorkerHost
 
         internal void InterrogateNeoArtifact()
         {
-            Context.NeoBatPath = Path.Combine(Context.NeoDirectoryPath, configuration.NeoBatRelativePath);
+            Context.NeoBasePath = Path.Combine(Context.NeoDirectoryPath, configuration.NeoBasePath);
 
-            if (!fileSystem.File.Exists(Context.NeoBatPath))
+            const string neoBatRelativePath = @"bin\neo4j.bat";
+            var neoBatPath = Path.Combine(Context.NeoBasePath, neoBatRelativePath);
+            if (!fileSystem.File.Exists(neoBatPath))
                 throw new ApplicationException(string.Format(
                     ExceptionMessages.NeoBatNotFound,
-                    configuration.NeoBatRelativePath,
-                    Context.NeoBatPath));
+                    neoBatRelativePath,
+                    neoBatPath));
 
-            Loggers.WriteLine("neo4j.bat found at {0}", Context.NeoBatPath);
+            Context.NeoBatPath = neoBatPath;
+
+            Loggers.WriteLine("neo4j.bat found at {0}", neoBatPath);
         }
 
         internal void ApplyWorkaroundForJavaResolutionIssue()
@@ -152,9 +156,7 @@ namespace Neo4j.Server.AzureWorkerHost
 
             Loggers.WriteLine("Applying workaround for Neo4j issue https://github.com/neo4j/packaging/issues/3");
 
-            var directoryName = Path.GetDirectoryName(Context.NeoBatPath);
-            Debug.Assert(directoryName != null, "directoryName != null");
-            var baseBatPath = Path.Combine(directoryName, @"base.bat");
+            var baseBatPath = Path.Combine(Context.NeoBasePath, @"bin\base.bat");
             if (!fileSystem.File.Exists(baseBatPath))
             {
                 Loggers.Fail("Couldn't find base.bat on disk; skipping patching; path was: " + baseBatPath);
@@ -172,9 +174,14 @@ namespace Neo4j.Server.AzureWorkerHost
         {
             Loggers.WriteLine("Applying endpoint configuration");
 
-            var configPath = Path.Combine(Context.NeoDirectoryPath, @"conf\neo4j-server.properties");
+            const string configPathRelativeToNeoDirectory = @"conf\neo4j-server.properties";
+            var configPath = Path.Combine(Context.NeoBasePath, configPathRelativeToNeoDirectory);
             if (!fileSystem.File.Exists(configPath))
-                throw new ApplicationException();
+                throw new ApplicationException(string.Format(
+                    ExceptionMessages.NeoServerConfigNotFound,
+                    configPathRelativeToNeoDirectory,
+                    configPath
+                ));
 
             var fileContents = fileSystem.File.ReadAllText(configPath);
             fileContents = Regex.Replace(fileContents,

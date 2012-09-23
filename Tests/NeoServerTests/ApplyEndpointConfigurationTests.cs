@@ -19,18 +19,17 @@ namespace Tests.NeoServerTests
             // Arrange
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                { @"c:\temp\neo4j\conf\neo4j-server.properties", new MockFileData(input) }
+                { @"c:\temp\neo4j\neo-v1234\conf\neo4j-server.properties", new MockFileData(input) }
             });
             var server = new NeoServer(new NeoServerConfiguration(), null, null, fileSystem, null);
             server.Context.NeoEndpoint = new IPEndPoint(IPAddress.Parse("1.2.3.4"), 5678);
-            server.Context.NeoDirectoryPath = @"c:\temp\neo4j\";
-            server.Context.NeoBatPath = @"c:\temp\neo4j\bin\neo4j.bat";
+            server.Context.NeoBasePath = @"c:\temp\neo4j\neo-v1234\";
 
             // Act
             server.ApplyEndpointConfiguration();
 
             // Assert
-            var content = fileSystem.File.ReadAllText(@"c:\temp\neo4j\conf\neo4j-server.properties");
+            var content = fileSystem.File.ReadAllText(@"c:\temp\neo4j\neo-v1234\conf\neo4j-server.properties");
             Assert.Equal(expected, content);
         }
 

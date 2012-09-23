@@ -13,10 +13,10 @@ namespace Tests.NeoServerTests
             // Arrange
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                { @"c:\temp\neo4j\bin\neo4j.bat", new MockFileData("foo") }
+                { @"c:\temp\neo4j\neo-v1234\bin\neo4j.bat", new MockFileData("foo") }
             });
             var server = new NeoServer(new NeoServerConfiguration(), null, null, fileSystem, null);
-            server.Context.NeoBatPath = @"c:\temp\neo4j\bin\neo4j.bat";
+            server.Context.NeoBasePath = @"c:\temp\neo4j\neo-v1234\";
 
             // Act
             server.ApplyWorkaroundForJavaResolutionIssue();
@@ -37,11 +37,11 @@ baz qak java qoo
 ajava";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                { @"c:\temp\neo4j\bin\neo4j.bat", new MockFileData("foo") },
-                { @"c:\temp\neo4j\bin\base.bat", new MockFileData(badFileContent) }
+                { @"c:\temp\neo4j\neo-v1234\bin\neo4j.bat", new MockFileData("foo") },
+                { @"c:\temp\neo4j\neo-v1234\bin\base.bat", new MockFileData(badFileContent) }
             });
             var server = new NeoServer(new NeoServerConfiguration(), null, null, fileSystem, null);
-            server.Context.NeoBatPath = @"c:\temp\neo4j\bin\neo4j.bat";
+            server.Context.NeoBasePath = @"c:\temp\neo4j\neo-v1234\";
 
             // Act
             server.ApplyWorkaroundForJavaResolutionIssue();
@@ -53,7 +53,7 @@ foo
 
 baz qak java qoo
 ajava";
-            var content = fileSystem.File.ReadAllText(@"c:\temp\neo4j\bin\base.bat");
+            var content = fileSystem.File.ReadAllText(@"c:\temp\neo4j\neo-v1234\bin\base.bat");
             Assert.Equal(goodFileContent, content);
         }
     }

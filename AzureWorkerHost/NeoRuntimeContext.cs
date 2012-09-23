@@ -26,7 +26,12 @@ namespace Neo4j.Server.AzureWorkerHost
         public string JavaHomePath { get; set; }
 
         /// <summary>
-        /// Full path to neo4j.bat on disk
+        /// Full path to root of the Neo distribution (must have child folders like bin and conf)
+        /// </summary>
+        public string NeoBasePath { get; set; }
+
+        /// <summary>
+        /// Full path to neo4j.bat
         /// </summary>
         public string NeoBatPath { get; set; }
 
