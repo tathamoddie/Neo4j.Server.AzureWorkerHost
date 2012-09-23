@@ -69,11 +69,9 @@
     <Compile Include="AzureMocks\ICloudBlobClient.cs" />
     <Compile Include="Diagnostics\ILogger.cs" />
     <Compile Include="Legacy\ICloudDriveManager.cs" />
-    <Compile Include="Legacy\INeo4jServerConfigSettings.cs" />
     <Compile Include="AzureMocks\IRoleEnvironment.cs" />
     <Compile Include="IZipHandler.cs" />
     <Compile Include="Legacy\Neo4jManager.cs" />
-    <Compile Include="Legacy\Neo4jServerConfigSettings.cs" />
     <Compile Include="NeoRuntimeContext.cs" />
     <Compile Include="NeoServer.cs" />
     <Compile Include="NeoServerConfiguration.cs" />
@@ -84,7 +82,6 @@
     <Compile Include="Legacy\DirectoryInfoExtensions.cs" />
     <Compile Include="Legacy\FileManipulation.cs" />
     <Compile Include="Legacy\IConfiguration.cs" />
-    <Compile Include="Legacy\ILocalResourceManager.cs" />
     <Compile Include="Legacy\LineSearchOptions.cs" />
     <Compile Include="Legacy\Paths.cs" />
     <Compile Include="Legacy\Replacement.cs" />

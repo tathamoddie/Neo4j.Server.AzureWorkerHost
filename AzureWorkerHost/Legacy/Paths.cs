@@ -5,12 +5,10 @@ using Microsoft.WindowsAzure.ServiceRuntime;
 
 namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
+    [Obsolete]
     internal class Paths
     {
-        readonly ILocalResourceManager localResourceManager;
         readonly IConfiguration configuration;
-        readonly INeo4JServerConfigSettings neo4JServerConfigSettings;
-        DirectoryInfo neo4JInstRoot;
         DirectoryInfo neo4JLogPath;
         FileInfo neo4JConfigFile;
         FileInfo neo4JServerConfigFile;
@@ -18,28 +16,16 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
         FileInfo neo4JLoggingConfigFile;
 
         public Paths(
-            ILocalResourceManager localResourceManager,
-            IConfiguration configuration, 
-            INeo4JServerConfigSettings neo4JServerConfigSettings)
+            IConfiguration configuration)
         {
-            this.localResourceManager = localResourceManager;
             this.configuration = configuration;
-            this.neo4JServerConfigSettings = neo4JServerConfigSettings;
         }
 
         public DirectoryInfo Neo4JInstRoot
         {
             get
             {
-                if (neo4JInstRoot == null)
-                {
-                    var localResource = localResourceManager.GetLocalResource(ConfigConstants.LocalNeo4JInstallation);
-                    neo4JInstRoot = new DirectoryInfo(localResource.RootPath);
-                    Trace.TraceInformation("The root path to the local resource '{0}' is '{1}'.",
-                                           ConfigConstants.LocalNeo4JInstallation,
-                                           neo4JInstRoot.FullName);
-                }
-                return neo4JInstRoot;
+                throw new NotImplementedException();
             }
         }
 
@@ -107,11 +93,6 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
                 }
                 return neo4JWrapperConfigFile;
             }
-        }
-
-        public INeo4JServerConfigSettings Neo4JServerConfigSettings
-        {
-            get { return neo4JServerConfigSettings; }
         }
 
         public string Neo4JWrapperSettingLogFile

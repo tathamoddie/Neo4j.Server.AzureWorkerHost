@@ -2,6 +2,7 @@ using System;
 
 namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
+    [Obsolete]
     internal static class UriExtensions
     {
         public static Uri Append(this Uri baseUri, string relativeUriPathToAppend)

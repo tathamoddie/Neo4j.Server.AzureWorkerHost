@@ -1,4 +1,7 @@
+using System;
+
 namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
-    enum ReplaceType {Line, Value}
+    [Obsolete]
+    enum ReplaceType { Line, Value }
 }

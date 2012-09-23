@@ -1,8 +1,10 @@
+using System;
 using System.IO;
 using System.Linq;
 
 namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
+    [Obsolete]
     public static class DirectoryInfoExtensions
     {
         public static FileInfo FindFile(this DirectoryInfo directoryInfo, string fileName)

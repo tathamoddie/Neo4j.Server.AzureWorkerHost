@@ -1,5 +1,8 @@
+using System;
+
 namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
+    [Obsolete]
     public class Replacement
     {
         private Replacement(string patternToFind, string lineToInsert,

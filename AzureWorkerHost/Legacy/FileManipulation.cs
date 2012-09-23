@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -5,6 +6,7 @@ using System.Linq;
 
 namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
+    [Obsolete]
     public class FileManipulation
     {
         public void ReplaceConfigLine(FileInfo fileToRead, params Replacement[] replacements)

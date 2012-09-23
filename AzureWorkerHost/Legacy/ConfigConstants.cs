@@ -2,6 +2,7 @@ using System;
 
 namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
+    [Obsolete]
     internal class ConfigConstants
     {
         public static string Neo4JEndpoint

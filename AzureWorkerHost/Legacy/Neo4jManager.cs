@@ -6,6 +6,7 @@ using Microsoft.WindowsAzure;
 
 namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
+    [Obsolete]
     internal class Neo4JManager
     {
         readonly FileManipulation fileManipulation;
@@ -223,7 +224,7 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
         internal void SetServerDbPathConfiguration(DirectoryInfo neo4JdbPath)
         {
             Trace.TraceInformation("Setting Neo4j server database path setting.");
-            var patternToFind = string.Format("{0}=", paths.Neo4JServerConfigSettings.DatabaseLocation);
+            var patternToFind = string.Format("{0}=", paths.Neo4jDBPath);
             var dbPath = neo4JdbPath.FullName.Replace("\\", "/");
 
             if (paths.Neo4jDBPath == null)

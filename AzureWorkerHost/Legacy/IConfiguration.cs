@@ -1,5 +1,8 @@
+using System;
+
 namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
+    [Obsolete]
     public interface IConfiguration
     {
         object Neo4JdbDriveOverridePath();
