@@ -4,16 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.StorageClient;
 
 namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
     public class Neo4JManager
     {
         readonly IFileManipulation fileManipulation;
-        readonly IZipHandler zipHandler;
         readonly IPaths paths;
-        readonly CloudStorageAccount storageAccount;
         readonly ICloudDriveManager cloudDriveManager;
         readonly IConfiguration configuration;
 
@@ -25,15 +22,11 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
 
         public Neo4JManager(
             IFileManipulation fileManipulation,
-            IZipHandler zipHandler,
             IPaths paths,
-            CloudStorageAccount storageAccount,
             ICloudDriveManager cloudDriveManager,
             IConfiguration configuration)
         {
-            this.zipHandler = zipHandler;
             this.paths = paths;
-            this.storageAccount = storageAccount;
             this.cloudDriveManager = cloudDriveManager;
             this.configuration = configuration;
             this.fileManipulation = fileManipulation;
@@ -49,9 +42,9 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
             Directory.CreateDirectory(Path.Combine(paths.Neo4JInstRoot.FullName, configuration.Neo4JLogFolderPath()));
 
             // Download
-            DownloadJava();
-            DownloadNeo4J();
-            UnzipAllZipFiles();
+            //DownloadJava();
+            //DownloadNeo4J();
+            //UnzipAllZipFiles();
 
             // Validate
             FindRequiredFilesAndDirectories();
@@ -406,104 +399,6 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
                       true);
 
             Trace.TraceInformation("Finished setting Neo4j server settings.");
-        }
-
-        internal void UnzipAllZipFiles()
-        {
-            var rootPath = paths.Neo4JInstRoot;
-            rootPath
-                .GetFiles("*.zip", SearchOption.AllDirectories)
-                .ToList()
-                .ForEach(UnzipZipFile);
-        }
-
-        internal void UnzipZipFile(FileInfo fileInfo)
-        {
-            Trace.TraceInformation("Unzipping the file <{0}>.", fileInfo.FullName);
-            try
-            {
-                zipHandler.Extract(fileInfo.FullName, fileInfo.DirectoryName);
-            }
-            catch (Exception e)
-            {
-                Trace.TraceError("Error unzipping the file <{0}> type <{1}> message <{2}> stack trace <{3}>.",
-                                 fileInfo.FullName, e.GetType().FullName, e.Message, e.StackTrace);
-                throw;
-            }
-            Trace.TraceInformation("Unziped the file <{0}>.", fileInfo.FullName);
-        }
-
-        internal void DownloadNeo4J()
-        {
-            try
-            {
-                Trace.TraceInformation("Downloading Neo4j installer.");
-
-                var blobClient = new CloudBlobClient(storageAccount.BlobEndpoint, storageAccount.Credentials);
-
-                var neo4JBlobRelativePath = configuration.Neo4JBlobNameSetting();
-
-                var neo4JBlobUri = storageAccount.BlobEndpoint.Append(neo4JBlobRelativePath);
-
-                var blob = blobClient.GetBlobReference(neo4JBlobUri.AbsoluteUri);
-
-                var localNeo4JZipPath = Path.GetFileName(blob.Uri.LocalPath);
-
-                if (localNeo4JZipPath == null)
-                    throw new ApplicationException("Neo4JZip file path must be present.");
-
-                if (File.Exists(localNeo4JZipPath))
-                {
-                    File.Delete(localNeo4JZipPath);
-                }
-
-                var neo4JZipFullPath = Path.Combine(paths.Neo4JInstRoot.FullName, localNeo4JZipPath);
-                blob.DownloadToFile(neo4JZipFullPath);
-
-                Trace.TraceInformation("Neo4j installer downloaded.");
-            }
-            catch (Exception e)
-            {
-                Trace.TraceError("Error downloading Neo4j: type <{0}> message <{1}> stack trace <{2}>.",
-                                 e.GetType().FullName, e.Message, e.StackTrace);
-                throw;
-            }
-        }
-
-        internal void DownloadJava()
-        {
-            try
-            {
-                Trace.TraceInformation("Downloading Java.");
-
-                var blobClient = new CloudBlobClient(storageAccount.BlobEndpoint, storageAccount.Credentials);
-
-                var jBlobRelativePath = configuration.JavaBlobNameSetting();
-
-                var javaBlobAddress = storageAccount.BlobEndpoint.Append(jBlobRelativePath);
-
-                var blob = blobClient.GetBlobReference(javaBlobAddress.AbsoluteUri);
-
-                var localJavaZipPath = Path.GetFileName(blob.Uri.LocalPath);
-                if (localJavaZipPath == null)
-                    throw new ApplicationException("LocalJavaZipPath must be present.");
-
-                if (File.Exists(localJavaZipPath))
-                {
-                    File.Delete(localJavaZipPath);
-                }
-
-                var javaZipFullPath = Path.Combine(paths.Neo4JInstRoot.FullName, localJavaZipPath);
-                blob.DownloadToFile(javaZipFullPath);
-
-                Trace.TraceInformation("Java downloaded.");
-            }
-            catch (Exception e)
-            {
-                Trace.TraceError("Error downloading Java: type <{0}> message <{1}> stack trace <{2}>.",
-                                 e.GetType().FullName, e.Message, e.StackTrace);
-                throw;
-            }
         }
     }
 }
