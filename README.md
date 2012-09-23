@@ -30,7 +30,7 @@ Up-to-the-minute packages can be installed from [NuGet](https://nuget.org/packag
 1. Create an Azure solution
 1. Add a worker role
 1. Run `Install-Package Neo4j.Server.AzureWorkerHost` in that role
-1. Add this to your `.cscfg`:
+1. Add this to your `ServiceDefinition.csdef`:
 
         <LocalResources>
           <LocalStorage name="Neo4jInstall" cleanOnRoleRecycle="true" sizeInMB="500" />
