@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Abstractions;
+using System.Text.RegularExpressions;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.StorageClient;
@@ -61,6 +62,7 @@ namespace Neo4j.Server.AzureWorkerHost
             InterrogateJavaArtifact();
             DownloadNeo();
             InterrogateNeoArtifact();
+            ApplyWorkaroundForJavaResolutionIssue();
         }
 
         public void Start()
@@ -139,6 +141,28 @@ namespace Neo4j.Server.AzureWorkerHost
                     Context.NeoBatPath));
 
             Loggers.WriteLine("neo4j.bat found at {0}", Context.NeoBatPath);
+        }
+
+        internal void ApplyWorkaroundForJavaResolutionIssue()
+        {
+            // https://github.com/neo4j/packaging/issues/3
+
+            Loggers.WriteLine("Applying workaround for Neo4j issue https://github.com/neo4j/packaging/issues/3");
+
+            var directoryName = Path.GetDirectoryName(Context.NeoBatPath);
+            Debug.Assert(directoryName != null, "directoryName != null");
+            var baseBatPath = Path.Combine(directoryName, @"base.bat");
+            if (!fileSystem.File.Exists(baseBatPath))
+            {
+                Loggers.Fail("Couldn't find base.bat on disk; skipping patching; path was: " + baseBatPath);
+                return;
+            }
+
+            var fileContents = fileSystem.File.ReadAllText(baseBatPath);
+            fileContents = Regex.Replace(fileContents, "(?mi:^java )", "\"%javaPath%\\bin\\java.exe\" ");
+            fileSystem.File.WriteAllText(baseBatPath, fileContents);
+
+            Loggers.WriteLine("Patched " + baseBatPath);
         }
 
         internal void DownloadArtifact(
