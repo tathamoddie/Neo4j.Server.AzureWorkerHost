@@ -27,11 +27,17 @@ On disk, this path corresponds to: {1}";
 
         public const string PathTooLongWhileUnzipping = @"While unzipping one of the artifacts, we encountered a PathTooLongException. This generally happens during local development because the base path that the Azure emulator assigns for local resources is already really long and doesn't leave us much room to work with. (In this case, they gobbled up {0} path characters.)
 
-To work around this, set the _CSRUN_STATE_DIRECTORY environment variable on your dev workstation to something shorter like C:\AzureTemp.
+To work around this:
 
-Here's a bit of PowerShell to do that for you:
+1) set the _CSRUN_STATE_DIRECTORY environment variable on your dev workstation to something shorter like C:\AzureTemp
+2) restart the Azure Compute Emulator (dev fabric)
+3) restart Visual Studio
+
+Here's a bit of PowerShell to do that for you (run as admin):
 
 [Environment]::SetEnvironmentVariable(""_CSRUN_STATE_DIRECTORY"", ""C:\AzureTemp"", [EnvironmentVariableTarget]::User)
+& ""$Env:ProgramFiles\Microsoft SDKs\Windows Azure\Emulator\csrun.exe"" /devfabric:shutdown
+Get-Process devenv -ErrorAction SilentlyContinue | Stop-Process
 ";
     }
 }
