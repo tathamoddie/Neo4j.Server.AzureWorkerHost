@@ -1,26 +1,17 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
-using System.Net;
 using Microsoft.WindowsAzure.ServiceRuntime;
 
 namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
-    internal class Paths : IPaths
+    internal class Paths
     {
-        const string PortPattern = "%port%";
-        const string IpAddressPattern = "%IpAddress%";
         readonly ILocalResourceManager localResourceManager;
         readonly IConfiguration configuration;
         readonly INeo4JServerConfigSettings neo4JServerConfigSettings;
-        FileInfo javaExeFile;
-        string neo4jDBPath;
-        FileInfo neo4JExeFile;
         DirectoryInfo neo4JInstRoot;
         DirectoryInfo neo4JLogPath;
-        int neo4JPort;
-        IPAddress neo4JIpAddress;
         FileInfo neo4JConfigFile;
         FileInfo neo4JServerConfigFile;
         FileInfo neo4JWrapperConfigFile;
@@ -49,32 +40,6 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
                                            neo4JInstRoot.FullName);
                 }
                 return neo4JInstRoot;
-            }
-        }
-
-        public FileInfo JavaExeFile
-        {
-            get
-            {
-                if (javaExeFile == null)
-                {
-                    var javaExeFileName = configuration.JavaExeFileName();
-                    javaExeFile = Neo4JInstRoot.FindFile(javaExeFileName);
-                }
-                return javaExeFile;
-            }
-        }
-
-        public FileInfo Neo4JExeFile
-        {
-            get
-            {
-                if (neo4JExeFile == null)
-                {
-                    var neo4JExeFileName =configuration.Neo4JExeFileName();
-                    neo4JExeFile = Neo4JInstRoot.FindFile(neo4JExeFileName);
-                }
-                return neo4JExeFile;
             }
         }
 
@@ -154,24 +119,6 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
             get { return configuration.Neo4JWrapperSettingLogFile(); }
         }
 
-        public Uri GetNeo4JDataUri()
-        {
-            var portString = Neo4JPort.ToString(CultureInfo.InvariantCulture);
-            var neo4JDataUriString = configuration.Neo4JDataUri();
-            neo4JDataUriString = neo4JDataUriString.Replace(PortPattern, portString);
-            neo4JDataUriString = neo4JDataUriString.Replace(IpAddressPattern, Neo4JIpAddress.ToString());
-            return new Uri(neo4JDataUriString);
-        }
-
-        public Uri GetNeo4JAdminManagementUri()
-        {
-            var portString = Neo4JPort.ToString(CultureInfo.InvariantCulture);
-            var neo4JAdminUriString = configuration.Neo4JAdminUri();
-            neo4JAdminUriString = neo4JAdminUriString.Replace(PortPattern, portString);
-            neo4JAdminUriString = neo4JAdminUriString.Replace(IpAddressPattern, Neo4JIpAddress.ToString());
-            return new Uri(neo4JAdminUriString);
-        }
-
         public string Neo4JLogsContainerName
         {
             get { return configuration.Neo4JLogsContainerName(); }
@@ -180,36 +127,6 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
         public string NewRelicConfigFile
         {
             get { return configuration.NewRelicConfigFileName(); }
-        }
-
-        public int Neo4JPort
-        {
-            get
-            {
-                neo4JPort = RoleEnvironment
-                    .CurrentRoleInstance
-                    .InstanceEndpoints[ConfigConstants.Neo4JEndpoint]
-                    .IPEndpoint
-                    .Port;
-                Trace.TraceInformation("The configured endpoint '{0}' is assigned the dynamic port {1}.",
-                                       ConfigConstants.Neo4JEndpoint, neo4JPort);
-                return neo4JPort;
-            }
-        }
-
-        public IPAddress Neo4JIpAddress
-        {
-            get
-            {
-                neo4JIpAddress = RoleEnvironment
-                    .CurrentRoleInstance
-                    .InstanceEndpoints[ConfigConstants.Neo4JEndpoint]
-                    .IPEndpoint
-                    .Address;
-                Trace.TraceInformation("The configured endpoint '{0}' is assigned the IP Address {1}.",
-                                       ConfigConstants.Neo4JEndpoint, neo4JIpAddress);
-                return neo4JIpAddress;
-            }
         }
 
         public string Neo4JdbVirtualHardDriveBlobName
@@ -251,26 +168,7 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
 
         public string Neo4jDBPath
         {
-            get
-            {
-                if (neo4jDBPath != null)
-                {
-                    return neo4jDBPath.Length > 0 ? neo4jDBPath : null;
-                }
-
-                string configSetting;
-                try
-                {
-                    configSetting = AzureHelper.GetAzureLocalDeployPath(configuration.Neo4JdbDriveOverridePath());
-                }
-                catch (RoleEnvironmentException)
-                {
-                    configSetting = null;
-                }
-                neo4jDBPath = string.IsNullOrEmpty(configSetting) ? string.Empty : configSetting;
-
-                return Neo4jDBPath;
-            }
+            get { return @"x:\Neo"; }
         }
     }
 }

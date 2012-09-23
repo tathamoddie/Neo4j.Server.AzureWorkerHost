@@ -6,16 +6,16 @@ using Microsoft.WindowsAzure;
 
 namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
-    public class Neo4JManager
+    internal class Neo4JManager
     {
-        readonly IFileManipulation fileManipulation;
-        readonly IPaths paths;
+        readonly FileManipulation fileManipulation;
+        readonly Paths paths;
         readonly ICloudDriveManager cloudDriveManager;
         readonly IConfiguration configuration;
 
         public Neo4JManager(
-            IFileManipulation fileManipulation,
-            IPaths paths,
+            FileManipulation fileManipulation,
+            Paths paths,
             ICloudDriveManager cloudDriveManager,
             IConfiguration configuration)
         {

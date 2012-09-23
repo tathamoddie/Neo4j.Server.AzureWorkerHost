@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Neo4j.Server.AzureWorkerHost.Legacy
 {
-    public class FileManipulation : IFileManipulation
+    public class FileManipulation
     {
         public void ReplaceConfigLine(FileInfo fileToRead, params Replacement[] replacements)
         {
@@ -33,7 +33,7 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
 
                     if (line == null) continue;
 
-                    var replacement = replacements.Where(rep => IsMatch(rep, line)).SingleOrDefault();
+                    var replacement = replacements.SingleOrDefault(rep => IsMatch(rep, line));
                     if (replacement != null)
                     {
                         Trace.TraceInformation(
@@ -62,11 +62,6 @@ namespace Neo4j.Server.AzureWorkerHost.Legacy
             }
 
             Trace.TraceInformation("Config file '{0}' written.", fileName);
-        }
-
-        public void ReplaceTextInConfigLine(FileInfo fileToRead,string oldValue, params Replacement[] replacements)
-        {
-            ReplaceLineOrValue(fileToRead, ReplaceType.Value, replacements, oldValue);
         }
 
         public void AddTextToConfigLine(FileInfo fileToRead, string configLine)
