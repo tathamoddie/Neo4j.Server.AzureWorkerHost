@@ -63,12 +63,12 @@ namespace Neo4j.Server.AzureWorkerHost
             DownloadNeo();
             InterrogateNeoArtifact();
             ApplyWorkaroundForJavaResolutionIssue();
+            InitializeEndpoint();
             ApplyEndpointConfiguration();
         }
 
         public void Start()
         {
-            InitializeEndpoint();
             LaunchNeoProcess();
         }
 
