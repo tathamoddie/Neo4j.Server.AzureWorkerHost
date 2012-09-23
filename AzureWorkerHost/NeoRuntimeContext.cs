@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net;
 
 namespace Neo4j.Server.AzureWorkerHost
@@ -33,5 +34,10 @@ namespace Neo4j.Server.AzureWorkerHost
         /// Endpoint that Neo4j has to listen on to be available to other roles
         /// </summary>
         public IPEndPoint NeoEndpoint { get; set; }
+
+        /// <summary>
+        /// Handle to the running process
+        /// </summary>
+        public Process NeoProcess { get; set; }
     }
 }

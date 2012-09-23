@@ -69,6 +69,11 @@ namespace Neo4j.Server.AzureWorkerHost
             LaunchNeoProcess();
         }
 
+        public void Stop()
+        {
+            StopNeoProcess();
+        }
+
         internal void InitializeLocalResource()
         {
             Loggers.WriteLine("Initializing local resource: {0}", configuration.NeoLocalResourceName);
@@ -207,7 +212,7 @@ namespace Neo4j.Server.AzureWorkerHost
 
         internal void LaunchNeoProcess()
         {
-            var neoProcess = new Process
+            var neoProcess = Context.NeoProcess = new Process
             {
                 StartInfo = new ProcessStartInfo(Context.NeoBatPath)
                 {
@@ -226,6 +231,13 @@ namespace Neo4j.Server.AzureWorkerHost
             neoProcess.Start();
             neoProcess.BeginOutputReadLine();
             neoProcess.BeginErrorReadLine();
+        }
+
+        internal void StopNeoProcess()
+        {
+            var neoProcess = Context.NeoProcess;
+            neoProcess.StandardInput.Close();
+            neoProcess.WaitForExit((int)TimeSpan.FromMinutes(10).TotalMilliseconds);
         }
     }
 }
