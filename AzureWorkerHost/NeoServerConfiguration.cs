@@ -9,5 +9,6 @@ namespace Neo4j.Server.AzureWorkerHost
         public string NeoBlobName = "neo4j/neo4j-community-1.8.RC1-windows.zip";
         public string NeoDirectoryName = "neo4j-inst";
         public string NeoEndpointId = "Neo4j";
+        public string NeoBatRelativePath = @"neo4j-community-1.8.RC1\bin\neo4j.bat";
     }
 }

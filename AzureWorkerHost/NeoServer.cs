@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Abstractions;
 using Microsoft.WindowsAzure;
@@ -59,11 +60,13 @@ namespace Neo4j.Server.AzureWorkerHost
             DownloadJava();
             InterrogateJavaArtifact();
             DownloadNeo();
+            InterrogateNeoArtifact();
         }
 
         public void Start()
         {
             InitializeEndpoint();
+            LaunchNeoProcess();
         }
 
         internal void InitializeLocalResource()
@@ -118,6 +121,19 @@ namespace Neo4j.Server.AzureWorkerHost
                 ExceptionMessages.NeoArtifactPreparationHint,
                 configuration.NeoBlobName,
                 Context.NeoDirectoryPath);
+        }
+
+        internal void InterrogateNeoArtifact()
+        {
+            Context.NeoBatPath = Path.Combine(Context.NeoDirectoryPath, configuration.NeoBatRelativePath);
+
+            if (!fileSystem.File.Exists(Context.NeoBatPath))
+                throw new ApplicationException(string.Format(
+                    ExceptionMessages.NeoBatNotFound,
+                    configuration.NeoBatRelativePath,
+                    Context.NeoBatPath));
+
+            Loggers.WriteLine("neo4j.bat found at {0}", Context.NeoBatPath);
         }
 
         internal void DownloadArtifact(
@@ -187,6 +203,29 @@ namespace Neo4j.Server.AzureWorkerHost
             Context.NeoEndpoint = endpoints[configuration.NeoEndpointId].IPEndpoint;
 
             Loggers.WriteLine("Local endpoint is: {0}", Context.NeoEndpoint);
+        }
+
+        internal void LaunchNeoProcess()
+        {
+            var neoProcess = new Process
+            {
+                StartInfo = new ProcessStartInfo(Context.NeoBatPath)
+                {
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                }
+            };
+
+            neoProcess.Exited += (sender, e) => Loggers.WriteLine("Neo4j process exited");
+            neoProcess.ErrorDataReceived += (sender, e) => Loggers.Fail("Neo4j: " + e.Data);
+            neoProcess.OutputDataReceived += (sender, e) => Loggers.WriteLine("Neo4j: " + e.Data);
+
+            neoProcess.Start();
+            neoProcess.BeginOutputReadLine();
+            neoProcess.BeginErrorReadLine();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Neo4j.Server.AzureWorkerHost.Diagnostics
 
         public void Fail(string message)
         {
-            Trace.Fail(message);
+            Trace.TraceError(message);
         }
 
         public void WriteLine(string message)

@@ -25,6 +25,11 @@ namespace Neo4j.Server.AzureWorkerHost
         public string JavaExePath { get; set; }
 
         /// <summary>
+        /// Full path to neo4j.bat on disk
+        /// </summary>
+        public string NeoBatPath { get; set; }
+
+        /// <summary>
         /// Endpoint that Neo4j has to listen on to be available to other roles
         /// </summary>
         public IPEndPoint NeoEndpoint { get; set; }

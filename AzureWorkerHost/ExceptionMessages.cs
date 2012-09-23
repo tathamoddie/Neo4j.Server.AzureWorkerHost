@@ -39,5 +39,9 @@ Here's a bit of PowerShell to do that for you (run as admin):
 & ""$Env:ProgramFiles\Microsoft SDKs\Windows Azure\Emulator\csrun.exe"" /devfabric:shutdown
 Get-Process devenv -ErrorAction SilentlyContinue | Stop-Process
 ";
+
+        public const string NeoBatNotFound = @"After downloading and unzipping the Neo4j distribution, we expected but failed to find neo4j.bat at {0}.
+
+On disk, this path corresponds to: {1}";
     }
 }
