@@ -1,7 +1,7 @@
 Neo4j.Server.AzureWorkerHost
 ============================
 
-Making it easy to run Neo4j as a PaaS solution in Azure.
+Making it easy to run Neo4j as a PaaS (platform as a service) solution in Azure.
 
 ## Project Status
 
